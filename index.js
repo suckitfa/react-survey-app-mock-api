@@ -6,10 +6,10 @@ const mockList = require('./mock')
 const app = new Koa()
 const router = new Router()
 
-async function getRes(fn) {
+async function getRes(fn, ctx) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            const res = fn()
+            const res = fn(ctx)
             resolve(res)
         }, 1000)
     })
@@ -20,7 +20,7 @@ mockList.forEach(item => {
 
     router[method](url, async ctx => {
         // 增加返回延迟
-        const res = await getRes(response)
+        const res = await getRes(response, ctx)
         ctx.body = res
     })
 })
